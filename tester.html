@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="mystyle.css">
+</head>
+<body id="hack">
+
+<div class="container">
+  <div class="child">
+    <h2>Ти то можеш!</h2>
+    <p>слогови :<input id="sylaby" type="number"></p>
+    <p>Притисните ентер!</p>
+    <hr>
+
+    <div id="main">
+      <p id="question"></p>
+      <p id="answer"></p>
+    </div>
+  </div>
+</div>
+
+<script>
+
+var spolgloski = {
+	"б":"b",
+	"в":"v",
+	"г":"g",
+	"д":"d",
+	"ђ":"dź",
+	"ж":"ż",
+	"з":"z",
+	"к":"k",
+	"л":"l",
+	"љ":"lj",
+	"м":"m",
+	"н":"n",
+	"њ":"nj",
+	"п":"p",
+	"р":"r",
+ 	"с":"s",
+	"т":"t",
+	"ћ":"ć",
+	"ф":"f",
+	"х":"h",
+	"ц":"c",
+	"ч":"cz",
+	"џ":"dż",
+	"ш":"sz"
+};
+
+var samogloski = {
+	"a":"a",
+	"e":"e",
+	"и":"i",
+	"o":"o",
+	"у":"u"
+}
+
+var keys_spolgloski = Object.keys(spolgloski); 
+var keys_samogloski = Object.keys(samogloski);
+
+var hack = document.getElementById("hack");
+
+var now_answer = true;
+
+function generate() {
+   var question = "";
+   var answer = "";
+   var sylaby = parseInt(document.getElementById("sylaby").value);
+   for (i = 0; i < sylaby; i++) {     
+	var spolgloska = keys_spolgloski[Math.floor(Math.random() * keys_spolgloski.length)];
+	var samogloska = keys_samogloski[Math.floor(Math.random() * keys_samogloski.length)];
+        question += spolgloska + samogloska;
+	answer += spolgloski[spolgloska] + samogloski[samogloska];
+   }
+    return [question, answer];
+}
+
+var question_and_answer = generate();
+var question = question_and_answer[0];
+var answer = question_and_answer[1];
+document.getElementById("question").innerHTML = question;
+
+hack.addEventListener("keyup", function(event) {
+  if (event.keyCode === 13) {
+    event.preventDefault();
+    if (now_answer) {
+      console.log(window.answer);
+      document.getElementById("answer").innerHTML = window.answer;
+      window.now_answer = false;
+    } else {
+      var question_and_answer = generate();
+      window.question = question_and_answer[0];
+      window.answer = question_and_answer[1];
+      document.getElementById("question").innerHTML = question;
+      document.getElementById("answer").innerHTML = "";
+      window.now_answer = true;
+    }
+  }
+});
+
+</script>
+
+</body>
+</html>
